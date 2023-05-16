@@ -1,17 +1,15 @@
 import { Search } from "@/components/Search";
 import { useSearchCity } from "@/data/city/hook";
 import { WeatherPreview } from "@/ui/WeatherPreview";
+import { useState } from "react";
 
 export default function Home() {
-  const { data, isLoading, error, isError } = useSearchCity("paris");
-  console.log({ data, isLoading, error, isError });
+  const [searchValue, setSearchValue] = useState("");
+  const { data, isLoading, error, isError } = useSearchCity(searchValue);
+  console.log("============data", data);
   return (
     <>
-      <Search
-        onSearch={searchValue => {
-          console.log("search", searchValue);
-        }}
-      />
+      <Search onSearch={setSearchValue} />
       <WeatherPreview />
     </>
   );
