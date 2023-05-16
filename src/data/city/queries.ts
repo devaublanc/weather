@@ -5,7 +5,7 @@ export async function fetchCity(cityName: string): Promise<City[]> {
   try {
     const response = await fetch(`/api/city?name=${cityName}`);
     const cities: City[] = await response.json();
-    // Handle the response data
+
     return cities;
   } catch (error) {
     throw new Error("Failed to fetch city");

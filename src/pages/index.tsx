@@ -1,50 +1,36 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
-import { Favorites } from "@/components/Favorites";
-import { Search } from "@/components/Search";
+import { FavoritesList } from "@/components/Favorites/FavoritesList";
+import { SearchInput } from "@/components/Search/SearchInput";
 import { useSearchCity } from "@/data/city/hook";
-import { City } from "@/data/city/types";
-import { useIsSSR } from "@/hooks/useIsSSR";
-import { useFavorites } from "@/stores/favoritesStore";
 
-import { CityList } from "@/ui/CityList";
+import { useIsSSR } from "@/hooks/useIsSSR";
+
+import { SearchResultList } from "@/components/Search/SearchResultList";
+
+import { Divider } from "@chakra-ui/react";
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
+  const [value, setValue] = useState("");
   const { data: cities, isLoading } = useSearchCity(searchValue);
   const isSSR = useIsSSR();
-  const { addCity } = useFavorites();
-  const resetSearchValue = useCallback(() => {
-    setSearchValue("");
-  }, []);
 
-  const onClickFavorite = useCallback(
-    (city: City) => {
-      resetSearchValue();
-      addCity(city);
-    },
-    [resetSearchValue, addCity]
-  );
-
-  const onClickCity = useCallback(() => {
-    resetSearchValue();
-  }, [resetSearchValue]);
-
-  const shouldDisplayCityList = searchValue.length > 0 && !isLoading;
-  const shouldDisplayFavorites = !shouldDisplayCityList && !isSSR;
+  const shouldDisplayCityList = searchValue.length > 0;
 
   return (
     <>
-      <Search onSearch={setSearchValue} />
+      <SearchInput
+        value={value}
+        onChange={setValue}
+        onSearch={setSearchValue}
+      />
+
       {shouldDisplayCityList && (
-        <CityList
-          isLoading={isLoading}
-          cities={cities ?? []}
-          onClickFavorite={onClickFavorite}
-          onClickCity={onClickCity}
-        />
+        <SearchResultList isLoading={isLoading} cities={cities ?? []} />
       )}
-      {shouldDisplayFavorites && <Favorites />}
+      <Divider my="10" />
+      {!isSSR && <FavoritesList />}
     </>
   );
 }

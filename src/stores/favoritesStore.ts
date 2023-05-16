@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 
 import { City } from "@/data/city/types";
 import { persist } from "zustand/middleware";
