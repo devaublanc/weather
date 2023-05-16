@@ -10,7 +10,6 @@ export function Search({ onSearch }: SearchProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onChange = useCallback(
     debounce((e: ChangeEvent<HTMLInputElement>) => {
-      if (e.target.value.length < 3) return;
       onSearch(e.target.value);
     }, 1000),
     [onSearch]

@@ -1,23 +1,26 @@
 import { City } from "@/data/city/types";
-import { StarIcon } from "@chakra-ui/icons";
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+
+import { Text, Flex, Spinner } from "@chakra-ui/react";
 
 export type CityListProps = {
   cities: City[];
   onClickCity: (city: City) => void;
   isLoading: boolean;
-  onStar: (city: City) => void;
+  onClickFavorite: (city: City) => void;
 };
 export function CityList({
   cities,
   onClickCity,
-  onStar,
+  onClickFavorite,
   isLoading,
 }: CityListProps) {
   return (
-    <Box w="100%">
+    <Flex flexDir={"column"} alignItems={"stretch"} p="2" w="100%">
       {isLoading && <Spinner />}
-      {cities.map(city => {
+      {cities.length === 0 && !isLoading && (
+        <Text textAlign={"center"}>No cities found</Text>
+      )}
+      {cities.map((city, key) => {
         return (
           <Flex
             onClick={() => onClickCity(city)}
@@ -26,15 +29,17 @@ export function CityList({
             justifyContent={"space-between"}
             p="2"
             marginY={"2"}
-            key={`city_${city.id}`}
+            key={`city_${city.id}_${key}`}
             borderBottom={"1px"}
-            borderColor={"gray.20"}
+            borderColor={"gray.200"}
           >
             {city.name}
-            <StarIcon onClick={() => onStar(city)} />
+            <Text color={"blue.500"} onClick={() => onClickFavorite(city)}>
+              Add to favorites
+            </Text>
           </Flex>
         );
       })}
-    </Box>
+    </Flex>
   );
 }

@@ -1,8 +1,10 @@
 export type City = {
   id: number;
   name: string;
-  coord: {
-    lat: number;
-    lon: number;
-  };
+  coord: Coordinates;
+};
+
+export type Coordinates = {
+  lat: number;
+  lon: number;
 };
