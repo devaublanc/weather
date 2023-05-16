@@ -1,7 +1,9 @@
 import create from "zustand";
 
 import { City } from "@/data/city/types";
+import { persist } from "zustand/middleware";
 import { useCallback, useEffect } from "react";
+// import { useCookies } from "react-cookie";
 
 type FavoritesStore = {
   cities: City[];
@@ -11,21 +13,29 @@ type FavoritesStore = {
 };
 
 // Zustand store
-const useFavoritesStore = create<FavoritesStore>(set => ({
-  cities: [],
+const useFavoritesStore = create<FavoritesStore>()(
+  persist(
+    set => ({
+      cities: [],
 
-  // Add item to the array
-  addCity: city => {
-    set(state => ({ cities: [...state.cities, city] }));
-  },
+      // Add item to the array
+      addCity: city => {
+        set(state => ({ cities: [...state.cities, city] }));
+      },
 
-  // Remove item from the array
-  removeCity: (cityId: number) => {
-    set(state => ({
-      cities: state.cities.filter(i => i.id !== cityId),
-    }));
-  },
-}));
+      // Remove item from the array
+      removeCity: (cityId: number) => {
+        set(state => ({
+          cities: state.cities.filter(i => i.id !== cityId),
+        }));
+      },
+    }),
+    {
+      name: "itemStore", // Cookie name for persistence
+      getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+    }
+  )
+);
 
 export const useFavorites = () => {
   const cities = useFavoritesStore(state => state.cities);
@@ -34,8 +44,8 @@ export const useFavorites = () => {
   const removeCity = useFavoritesStore(state => state.removeCity);
 
   const isCityAdded = useCallback(
-    (city: City) => {
-      return cities.some(i => i.id === city.id);
+    (item: City) => {
+      return cities.some(i => i.id === item.id);
     },
     [cities]
   );
