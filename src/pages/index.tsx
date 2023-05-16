@@ -1,9 +1,15 @@
-import { Button } from "@chakra-ui/react";
+import { Search } from "@/components/Search";
+import { WeatherPreview } from "@/ui/WeatherPreview";
 
 export default function Home() {
   return (
-    <main>
-      <Button colorScheme="blue">Hello world</Button>
-    </main>
+    <>
+      <Search
+        onSearch={searchValue => {
+          console.log("search", searchValue);
+        }}
+      />
+      <WeatherPreview />
+    </>
   );
 }

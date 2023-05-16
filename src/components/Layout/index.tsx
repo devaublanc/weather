@@ -1,19 +1,13 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Text, Flex } from "@chakra-ui/react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Flex justifyContent={"center"} flex={1} height={"100vh"}>
-      <Flex
-        alignItems={"center"}
-        flexDir={"column"}
-        flex={1}
-        bg="red"
-        maxWidth={760}
-      >
+      <Flex alignItems={"stretch"} flexDir={"column"} flex={1} maxWidth={760}>
         <header>
-          <Box fontSize={"3xl"} fontWeight={"bold"} as="span">
+          <Text fontSize={"3xl"} fontWeight={"bold"}>
             Weather
-          </Box>
+          </Text>
         </header>
 
         <main>{children}</main>
