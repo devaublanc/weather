@@ -17,6 +17,7 @@ export function FavoriteItem({ cityId, cityName }: FavoriteCityProps) {
     <CityItem
       isFavorite
       cityName={cityName}
+      imageId={"01d"}
       onClickRemoveFavorite={onRemoveFavorite}
       cityId={cityId}
       temperature={32}
