@@ -4,8 +4,12 @@ import { Flex, Text, Button, Icon, Img, Box, Link } from "@chakra-ui/react";
 export type WeatherItemProps = {
   name: string;
   id: string;
-  country?: string;
+  country: string;
   temperature?: number;
+  coordinates: {
+    lat: string;
+    lon: string;
+  };
   isFavorite?: boolean;
   icon?: string;
   onClick: (id: string) => void;
@@ -21,6 +25,7 @@ export function WeatherItem({
   isFavorite = false,
   icon,
   onClickRemoveFavorite,
+  coordinates,
   onClickFavorite,
 }: WeatherItemProps) {
   return (
@@ -35,7 +40,7 @@ export function WeatherItem({
           {name}
         </Link>
         <Text fontSize={"sm"} color={"gray.400"}>
-          {country}
+          {country} ({coordinates.lat}_{coordinates.lon})
         </Text>
       </Box>
       <Flex alignItems={"center"}>
@@ -49,6 +54,7 @@ export function WeatherItem({
         {temperature !== undefined && (
           <Text fontWeight={"bold"}>{Math.round(temperature)} °</Text>
         )}
+
         {onClickRemoveFavorite !== undefined && isFavorite && (
           <Button
             leftIcon={<StarIcon />}

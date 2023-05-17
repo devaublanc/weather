@@ -1,13 +1,23 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Logo } from "@/ui/Logo";
+import { Flex } from "@chakra-ui/react";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <Flex justifyContent={"center"} flex={1} height={"100vh"}>
-      <Flex alignItems={"stretch"} flexDir={"column"} flex={1} maxWidth={760}>
+    <Flex minH="100vh" justifyContent={"center"} flex={1} bg="gray.50">
+      <Flex
+        alignItems={"stretch"}
+        flexDir={"column"}
+        flex={1}
+        maxWidth={500}
+        px="4"
+        bg="white"
+        borderColor={"gray.300"}
+        borderWidth={1}
+        my={"4"}
+        borderRadius={"lg"}
+      >
         <header>
-          <Heading py="10" textAlign={"center"}>
-            Weather
-          </Heading>
+          <Logo />
         </header>
 
         <main>{children}</main>

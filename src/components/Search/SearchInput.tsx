@@ -13,7 +13,7 @@ export function SearchInput({ onSearch, onChange, value }: SearchInputProps) {
   const handleSearch = useCallback(
     debounce((value: string) => {
       onSearch(value);
-    }, 1000),
+    }, 300),
     [onSearch]
   );
 

@@ -34,10 +34,23 @@ export function useFavoritesWeather() {
   }, [favorites, prefetchWeather]);
 
   const groupedWeatherList = useMemo(() => {
-    if (isLoading) return { hottestWeather: [], coldestWeather: [] };
-
     const weatherSortedByTemp = favorites
-      .map(({ coord: { lat, lon } }) => getWeatherData(lat, lon))
+      .map(({ name, coord: { lat, lon } }) => {
+        const data = getWeatherData(lat, lon);
+
+        // Always use coord and name from favorites, because mismatch can happen between search api and weather api
+        if (data) {
+          return {
+            ...data,
+            coord: {
+              lat,
+              lon,
+            },
+            name: name,
+          };
+        }
+        return data;
+      })
       .filter(weather => weather !== undefined && weather !== null)
       .sort((a, b) => (b as Weather).main.temp - (a as Weather).main.temp);
 
@@ -53,6 +66,7 @@ export function useFavoritesWeather() {
       hottestWeather,
       coldestWeather,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [favorites, isLoading, getWeatherData]);
 
   return {

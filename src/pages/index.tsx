@@ -13,10 +13,16 @@ import { Divider } from "@chakra-ui/react";
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
   const [value, setValue] = useState("");
-  const { data: cities, isLoading } = useSearchCity(searchValue);
+
+  const { data: cities, isLoading } = useSearchCity(searchValue, {});
+
   const isSSR = useIsSSR();
 
-  const shouldDisplayCityList = searchValue.length > 0;
+  const shouldDisplayCityList = searchValue.length > 0 && value.length > 0;
+
+  const resetValue = () => {
+    setValue("");
+  };
 
   return (
     <>
@@ -27,9 +33,12 @@ export default function Home() {
       />
 
       {shouldDisplayCityList && (
-        <SearchResultList isLoading={isLoading} cities={cities ?? []} />
+        <SearchResultList
+          isLoading={isLoading}
+          cities={cities ?? []}
+          onClickAction={resetValue}
+        />
       )}
-      <Divider my="10" />
       {!isSSR && <FavoritesGroupedLists />}
     </>
   );

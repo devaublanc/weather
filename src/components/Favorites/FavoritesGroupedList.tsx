@@ -1,4 +1,4 @@
-import { Box, Text, Heading, Spinner, Flex } from "@chakra-ui/react";
+import { Box, Text, Heading, Spinner, Flex, Divider } from "@chakra-ui/react";
 import { useFavoritesWeather } from "@/hooks/useFavoritesWeather";
 import { FavoritesList } from "./FavoritesList";
 
@@ -8,47 +8,47 @@ export function FavoritesGroupedLists() {
     groupedWeatherList.hottestWeather.length === 0 &&
     groupedWeatherList.coldestWeather.length === 0;
 
-  const shouldDisplaySubtitle =
-    [...groupedWeatherList.hottestWeather, ...groupedWeatherList.coldestWeather]
-      .length > 1;
+  const favoritesCount = [
+    ...groupedWeatherList.hottestWeather,
+    ...groupedWeatherList.coldestWeather,
+  ].length;
 
-  if (isLoading) {
+  const shouldDisplaySubtitle = favoritesCount > 1;
+
+  if (hasNoResults && !isLoading) {
     return (
-      <Flex justifyContent={"center"}>
-        <Spinner />
-      </Flex>
+      <Text mt="10" mb="10" textAlign={"center"}>
+        No favorites yet...
+      </Text>
     );
   }
 
-  if (hasNoResults && !isLoading) {
-    return <Text>No favorites yet...</Text>;
-  }
-
   return (
-    <Box m="2">
+    <Box mt="10" mb="10">
       <Heading
         textAlign={"center"}
         fontWeight={"bold"}
-        fontSize={"xl"}
+        fontSize={"2xl"}
         alignItems={"center"}
-        mb="2"
+        mb="4"
       >
-        Favorites
+        ⭐️ Favorites ({favoritesCount})
+        {isLoading && <Spinner ml="2" size={"sm"} />}
       </Heading>
 
       {shouldDisplaySubtitle && (
-        <Heading mt="4" fontSize={"l"}>
-          Hottest
+        <Heading mt="10" textAlign={"center"} fontSize={"xl"}>
+          🥵 Hottest
         </Heading>
       )}
-      <FavoritesList weathers={groupedWeatherList.hottestWeather} />
+      <FavoritesList favoritesWeather={groupedWeatherList.hottestWeather} />
 
       {shouldDisplaySubtitle && (
-        <Heading mt="4" fontSize={"l"}>
-          Coldest
+        <Heading mt="10" fontSize={"xl"} textAlign={"center"}>
+          🥶 Coldest
         </Heading>
       )}
-      <FavoritesList weathers={groupedWeatherList.coldestWeather} />
+      <FavoritesList favoritesWeather={groupedWeatherList.coldestWeather} />
     </Box>
   );
 }

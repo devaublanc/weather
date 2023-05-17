@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { Coordinates } from "@/data/city/types";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type Favorite = {
   id: string;
@@ -15,7 +15,7 @@ type FavoritesStore = {
 };
 
 // Zustand store
-const useFavoritesStore = create<FavoritesStore>()(
+export const useFavoritesStore = create<FavoritesStore>()(
   persist(
     set => ({
       favorites: [],
@@ -34,7 +34,7 @@ const useFavoritesStore = create<FavoritesStore>()(
     }),
     {
       name: "itemStore", // Cookie name for persistence
-      getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
