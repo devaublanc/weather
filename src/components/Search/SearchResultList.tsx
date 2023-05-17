@@ -21,7 +21,7 @@ export function SearchResultList({ cities, isLoading }: SearchResultList) {
 
   return (
     <Flex flexDir={"column"} p="2" w="100%">
-      {isLoading && <Spinner mx="2" alignSelf={"center"} />}
+      {isLoading && <Spinner my="2" alignSelf={"center"} />}
 
       {cities.length === 0 && !isLoading && (
         <Text textAlign={"center"}>No cities found</Text>

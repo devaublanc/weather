@@ -33,5 +33,3 @@ export default async function handler(
     res.status(500);
   }
 }
-// https://api.openweathermap.org/data/3.0/onecall?lat=48.8534&lon=2.3488&appid=27d89500d6905e1d28567be7d3e44126
-//https://api.openweathermap.org/data/2.5/weather?lat=48.8534&lon=2.3488&appid=27d89500d6905e1d28567be7d3e44126

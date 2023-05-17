@@ -1,36 +1,22 @@
-import { City } from "@/data/city/types";
 import fetch from "node-fetch";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-type CityPayload = { list: City[] };
+import { Weather } from "@/data/weather/types";
 
 const API_URL = "https://api.openweathermap.org/data/2.5";
 
-function deduplicateCities(data: City[]): City[] {
-  return Object.values(
-    data.reduce((map, city) => {
-      map[city.id] = city;
-      return map;
-    }, {} as { [key: number]: City })
-  );
-}
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<City[]>
+  res: NextApiResponse<Weather>
 ) {
   try {
     const response = await fetch(
       `${API_URL}/weather?lat=${req.query.lat}&lon=${req.query.lon}&units=metric&appid=${process.env.OPENWEATHER_API_KEY}`
     );
-    const data = (await response.json()) as CityPayload;
-
-    const list = data.list;
+    const weather = (await response.json()) as Weather;
 
     // Handle the response data
-    return res.status(200).json(deduplicateCities(list));
+    return res.status(200).json(weather);
   } catch (error) {
     res.status(500);
   }
 }
-//https://api.openweathermap.org/data/2.5/weather?lat=48.8534&lon=2.3488&appid=27d89500d6905e1d28567be7d3e44126

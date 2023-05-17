@@ -1,7 +1,5 @@
 import { StarIcon } from "@chakra-ui/icons";
 import { Flex, Text, Button, Icon, Img } from "@chakra-ui/react";
-import Image from "next/image";
-import { TiWeatherPartlySunny } from "react-icons/ti";
 
 export type CityItemProps = {
   cityName: string;
@@ -35,23 +33,22 @@ export function CityItem({
         <Text fontSize={"l"} fontWeight={"bold"} mr="2">
           {cityName}
         </Text>
-        <>
-          {imageId !== undefined && (
-            <Img
-              src={`https://openweathermap.org/img/wn/${imageId}@2x.png`}
-              width={10}
-              height={10}
-            />
-          )}
-          {temperature !== undefined && <Text fontWeight={"bold"}>32 °</Text>}
-        </>
+        <></>
       </Flex>
-      <Flex>
+      <Flex alignItems={"center"}>
+        {imageId !== undefined && (
+          <Img
+            src={`https://openweathermap.org/img/wn/${imageId}@2x.png`}
+            width={10}
+            height={10}
+          />
+        )}
+        {temperature !== undefined && <Text fontWeight={"bold"}>32 °</Text>}
         {onClickRemoveFavorite !== undefined && isFavorite && (
           <Button
             leftIcon={<StarIcon />}
             size={"xs"}
-            mx="1"
+            mx="2"
             onClick={() => onClickRemoveFavorite(cityId)}
           >
             Unstar
@@ -61,7 +58,7 @@ export function CityItem({
           <Button
             leftIcon={<StarIcon />}
             size={"xs"}
-            mx="1"
+            mx="2"
             onClick={() => onClickFavorite(cityId)}
           >
             Star

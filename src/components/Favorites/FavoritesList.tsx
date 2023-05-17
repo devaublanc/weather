@@ -1,6 +1,7 @@
 import { useFavorites } from "@/stores/favoritesStore";
 import { FavoriteItem } from "@/components/Favorites/FavoriteItem";
 import { Box, Text, Heading } from "@chakra-ui/react";
+import Link from "next/link";
 
 export function FavoritesList() {
   const { cities } = useFavorites();
@@ -12,11 +13,12 @@ export function FavoritesList() {
       {cities.length === 0 && <Text>No favorites yet...</Text>}
       {cities.map((city, key) => {
         return (
-          <FavoriteItem
+          <Link
+            href={`/city/${city.coord.lat},${city.coord.lon}`}
             key={`city_${city.id}_${key}`}
-            cityName={city.name}
-            cityId={city.id}
-          />
+          >
+            <FavoriteItem cityName={city.name} cityId={city.id} />
+          </Link>
         );
       })}
     </Box>
