@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { FavoritesList } from "@/components/Favorites/FavoritesList";
+import { FavoritesGroupedLists } from "@/components/Favorites/FavoritesGroupedList";
 import { SearchInput } from "@/components/Search/SearchInput";
 import { useSearchCity } from "@/data/city/hook";
 
@@ -30,7 +30,7 @@ export default function Home() {
         <SearchResultList isLoading={isLoading} cities={cities ?? []} />
       )}
       <Divider my="10" />
-      {!isSSR && <FavoritesList />}
+      {!isSSR && <FavoritesGroupedLists />}
     </>
   );
 }

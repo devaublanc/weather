@@ -13,20 +13,16 @@ export default function Detail() {
 
   const [lat, lon] = (latlon as string).split(",");
 
-  return <WeatherDetail lat={parseFloat(lat)} lon={parseFloat(lon)} />;
+  return <WeatherDetail lat={lat} lon={lon} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const queryClient = new QueryClient();
   const { latlon } = context.query;
   const [lat, lon] = (latlon as string).split(",");
-  const lati = parseFloat(lat);
-  const long = parseFloat(lon);
 
-  console.log({ lati, long });
-
-  await queryClient.prefetchQuery(["weather", lati, long], () =>
-    fetchWeatherRemotely(lati, long)
+  await queryClient.prefetchQuery(["weather", lat, lon], () =>
+    fetchWeatherRemotely(lat, lon)
   );
 
   return {

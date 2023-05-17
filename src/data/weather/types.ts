@@ -1,13 +1,14 @@
 export type Weather = {
   coord: Coordinates;
+  id: string;
   name: string;
   weather: {
     main: string;
     description: string;
     icon: string;
-  };
+  }[];
   main: {
-    temps: number;
+    temp: number;
     feels_like: number;
     temp_min: number;
     temp_max: number;
@@ -17,9 +18,12 @@ export type Weather = {
   clouds: {
     all: number;
   };
+  sys: {
+    country: string;
+  };
 };
 
 export type Coordinates = {
-  lat: number;
-  lon: number;
+  lat: string;
+  lon: string;
 };

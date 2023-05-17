@@ -1,8 +1,8 @@
 import { City } from "@/data/city/types";
-import { useFavorites } from "@/stores/favoritesStore";
-import { CityItem } from "@/ui/CityItem";
+import { useFavoritesCity } from "@/stores/favoritesStore";
+import { WeatherItem } from "@/ui/WeatherItem";
 
-import { Text, Flex, Spinner } from "@chakra-ui/react";
+import { Text, Flex, Spinner, useToast } from "@chakra-ui/react";
 import { useCallback } from "react";
 
 export type SearchResultList = {
@@ -10,13 +10,26 @@ export type SearchResultList = {
   isLoading: boolean;
 };
 export function SearchResultList({ cities, isLoading }: SearchResultList) {
-  const { addCity } = useFavorites();
+  const { addFavorite } = useFavoritesCity();
+  const toast = useToast();
 
   const onAddCityToFavorite = useCallback(
     (city: City) => {
-      addCity(city);
+      addFavorite({
+        coord: city.coord,
+        id: `${city.coord.lat}_${city.coord.lon}`,
+        name: city.name,
+      });
+      toast({
+        title: "Favorite added",
+        colorScheme: "green",
+        description: `${city.name} added to your favorites.`,
+        duration: 3000,
+        isClosable: true,
+      });
     },
-    [addCity]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addFavorite]
   );
 
   return (
@@ -29,11 +42,12 @@ export function SearchResultList({ cities, isLoading }: SearchResultList) {
 
       {cities.map((city, key) => {
         return (
-          <CityItem
+          <WeatherItem
             onClick={() => {}}
+            country={city.sys.country}
             onClickFavorite={() => onAddCityToFavorite(city)}
-            cityId={city.id}
-            cityName={city.name}
+            id={`${city.coord.lat}_${city.coord.lon}`}
+            name={city.name}
             key={`city_${city.id}_${key}`}
           />
         );

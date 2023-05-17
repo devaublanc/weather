@@ -2,8 +2,8 @@ import { useWeather } from "@/data/weather/hook";
 import { Flex, Heading, Spinner } from "@chakra-ui/react";
 
 export type WeatherDetailProps = {
-  lat: number;
-  lon: number;
+  lat: string;
+  lon: string;
 };
 
 export function WeatherDetail({ lat, lon }: WeatherDetailProps) {

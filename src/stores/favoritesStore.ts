@@ -1,32 +1,34 @@
 import { create } from "zustand";
 
-import { City } from "@/data/city/types";
+import { Coordinates } from "@/data/city/types";
 import { persist } from "zustand/middleware";
-import { useCallback, useEffect } from "react";
-// import { useCookies } from "react-cookie";
 
+export type Favorite = {
+  id: string;
+  name: string;
+  coord: Coordinates;
+};
 type FavoritesStore = {
-  cities: City[];
-
-  addCity: (item: City) => void;
-  removeCity: (cityId: number) => void;
+  favorites: Favorite[];
+  addFavorite: (item: Favorite) => void;
+  removeFavorite: (favoriteId: string) => void;
 };
 
 // Zustand store
 const useFavoritesStore = create<FavoritesStore>()(
   persist(
     set => ({
-      cities: [],
+      favorites: [],
 
       // Add item to the array
-      addCity: city => {
-        set(state => ({ cities: [...state.cities, city] }));
+      addFavorite: favorite => {
+        set(state => ({ favorites: [...state.favorites, favorite] }));
       },
 
       // Remove item from the array
-      removeCity: (cityId: number) => {
+      removeFavorite: (favoriteId: string) => {
         set(state => ({
-          cities: state.cities.filter(i => i.id !== cityId),
+          favorites: state.favorites.filter(i => i.id !== favoriteId),
         }));
       },
     }),
@@ -37,26 +39,10 @@ const useFavoritesStore = create<FavoritesStore>()(
   )
 );
 
-export const useFavorites = () => {
-  const cities = useFavoritesStore(state => state.cities);
+export const useFavoritesCity = () => {
+  const favorites = useFavoritesStore(state => state.favorites);
+  const addFavorite = useFavoritesStore(state => state.addFavorite);
+  const removeFavorite = useFavoritesStore(state => state.removeFavorite);
 
-  const addCity = useFavoritesStore(state => state.addCity);
-  const removeCity = useFavoritesStore(state => state.removeCity);
-
-  const isCityAdded = useCallback(
-    (item: City) => {
-      return cities.some(i => i.id === item.id);
-    },
-    [cities]
-  );
-
-  useEffect(() => {
-    // Access the store and perform any additional side effects if needed
-    // ...
-
-    // Example: Log the current items to the console
-    console.log("Current cities:", cities);
-  }, [cities]);
-
-  return { cities, addCity, removeCity, isCityAdded };
+  return { favorites, addFavorite, removeFavorite };
 };
