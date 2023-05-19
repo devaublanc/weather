@@ -11,11 +11,15 @@ export function useFavoritesWeather() {
 
   const prefetchWeather = useCallback(async () => {
     await Promise.all(
-      favorites.map(({ coord: { lat, lon } }) =>
-        queryClient.prefetchQuery(["weather", lat, lon], () =>
-          fetchWeather(lat, lon)
+      favorites
+        .filter(({ coord: { lat, lon } }) => {
+          return !queryClient.getQueryData(["weather", lat, lon]);
+        })
+        .map(({ coord: { lat, lon } }) =>
+          queryClient.prefetchQuery(["weather", lat, lon], () =>
+            fetchWeather(lat, lon)
+          )
         )
-      )
     );
   }, [favorites, queryClient]);
 
