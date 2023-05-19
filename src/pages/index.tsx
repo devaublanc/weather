@@ -7,8 +7,7 @@ import { useSearchCity } from "@/data/city/hook";
 import { useIsSSR } from "@/hooks/useIsSSR";
 
 import { SearchResultList } from "@/components/Search/SearchResultList";
-
-import { Divider } from "@chakra-ui/react";
+import { MyLocation } from "@/components/MyLocation/MyLocation";
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState("");
@@ -39,6 +38,7 @@ export default function Home() {
           onClickAction={resetValue}
         />
       )}
+      <MyLocation />
       {!isSSR && <FavoritesGroupedLists />}
     </>
   );

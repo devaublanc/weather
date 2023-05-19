@@ -15,14 +15,6 @@ export function FavoritesGroupedLists() {
 
   const shouldDisplaySubtitle = favoritesCount > 1;
 
-  if (hasNoResults && !isLoading) {
-    return (
-      <Text mt="10" mb="10" textAlign={"center"}>
-        No favorites yet...
-      </Text>
-    );
-  }
-
   return (
     <Box mt="10" mb="10">
       <Heading
@@ -35,6 +27,10 @@ export function FavoritesGroupedLists() {
         ⭐️ Favorites ({favoritesCount})
         {isLoading && <Spinner ml="2" size={"sm"} />}
       </Heading>
+
+      {hasNoResults && !isLoading && (
+        <Text textAlign={"center"}>No favorites yet...</Text>
+      )}
 
       {shouldDisplaySubtitle && (
         <Heading mt="10" textAlign={"center"} fontSize={"xl"}>
