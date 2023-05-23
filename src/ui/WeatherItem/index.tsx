@@ -1,29 +1,32 @@
 import { StarIcon } from "@chakra-ui/icons";
-import { Flex, Text, Button, Icon, Img, Box, Link } from "@chakra-ui/react";
+import { Flex, Text, Button, Img, Box, Link } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 export type WeatherItemProps = {
   name: string;
   id: string;
   country: string;
   temperature?: number;
+  href: string;
   coordinates: {
     lat: string;
     lon: string;
   };
   isFavorite?: boolean;
+  prefetch?: boolean;
   icon?: string;
-  onClick: (id: string) => void;
   onClickFavorite?: (id: string) => void;
   onClickRemoveFavorite?: (id: string) => void;
 };
 export function WeatherItem({
   name,
   id,
-  onClick,
   country,
   temperature,
   isFavorite = false,
   icon,
+  href,
+  prefetch = true,
   onClickRemoveFavorite,
   coordinates,
   onClickFavorite,
@@ -32,8 +35,10 @@ export function WeatherItem({
     <Flex borderBottomWidth={1} p="4" justifyContent={"space-between"}>
       <Box mx="2">
         <Link
+          as={NextLink}
+          prefetch={prefetch}
+          href={href}
           color={"blue.500"}
-          onClick={() => onClick(id)}
           fontSize={"l"}
           fontWeight={"bold"}
         >

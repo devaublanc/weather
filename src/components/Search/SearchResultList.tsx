@@ -3,7 +3,6 @@ import { useFavoritesCity } from "@/stores/favoritesStore";
 import { WeatherItem } from "@/ui/WeatherItem";
 
 import { Text, Flex, Spinner, useToast } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { useCallback } from "react";
 
 export type SearchResultList = {
@@ -18,7 +17,6 @@ export function SearchResultList({
 }: SearchResultList) {
   const { addFavorite } = useFavoritesCity();
   const toast = useToast();
-  const router = useRouter();
 
   const onAddCityToFavorite = useCallback(
     (city: City) => {
@@ -51,10 +49,9 @@ export function SearchResultList({
       {cities.map((city, key) => {
         return (
           <WeatherItem
+            prefetch={false}
             coordinates={city.coord}
-            onClick={() =>
-              router.push(`/city/${city.coord.lat},${city.coord.lon}`)
-            }
+            href={`/city/${city.coord.lat},${city.coord.lon}`}
             country={city.sys.country}
             onClickFavorite={() => onAddCityToFavorite(city)}
             id={`${city.coord.lat}_${city.coord.lon}`}

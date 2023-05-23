@@ -1,12 +1,10 @@
 import { useMyLocation } from "@/hooks/useMyLocation";
 import { WeatherItem } from "@/ui/WeatherItem";
 import { Text, Flex, Heading, Spinner } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 
 export function MyLocation() {
   const { isLoading, error, weather } = useMyLocation();
 
-  const router = useRouter();
   return (
     <Flex flexDir={"column"} mt="10" mb="10" justifyContent={"center"}>
       <Heading
@@ -23,9 +21,7 @@ export function MyLocation() {
       {weather !== undefined && (
         <WeatherItem
           coordinates={weather.coord}
-          onClick={() =>
-            router.push(`/city/${weather.coord.lat},${weather.coord.lon}`)
-          }
+          href={`/city/${weather.coord.lat},${weather.coord.lon}`}
           icon={weather.weather[0].icon}
           temperature={weather.main.temp}
           country={weather.sys.country}

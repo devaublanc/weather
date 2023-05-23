@@ -3,15 +3,14 @@ import { describe, afterEach, vitest, expect, it } from "vitest";
 import { WeatherItem, WeatherItemProps } from "..";
 
 describe("WeatherItem", () => {
-  const mockOnClick = vitest.fn();
   const mockOnClickFavorite = vitest.fn();
   const mockOnClickRemoveFavorite = vitest.fn();
 
   const defaultProps: WeatherItemProps = {
+    href: `/city/123,456`,
     name: "City",
     id: "1",
     icon: "01d",
-    onClick: mockOnClick,
     country: "Country",
     temperature: 25,
     coordinates: {
@@ -30,13 +29,6 @@ describe("WeatherItem", () => {
     expect(screen.getByText("City")).toBeInTheDocument();
     expect(screen.getByText("Country (123_456)")).toBeInTheDocument();
     expect(screen.getByText("25 °")).toBeInTheDocument();
-  });
-
-  it("calls onClick when the city name is clicked", () => {
-    render(<WeatherItem {...defaultProps} />);
-
-    fireEvent.click(screen.getByText("City"));
-    expect(mockOnClick).toHaveBeenCalledWith("1");
   });
 
   it("calls onClickFavorite when the star button is clicked and is not a favorite", () => {
