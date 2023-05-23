@@ -2,7 +2,6 @@ import { useWeather } from "@/data/weather/hook";
 import { useFavoritesCity } from "@/stores/favoritesStore";
 import { WeatherItem } from "@/ui/WeatherItem";
 import { Spinner, useToast } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 
 export type FavoriteCityProps = {
   lat: string;
@@ -12,7 +11,6 @@ export type FavoriteCityProps = {
 export function FavoriteItem({ lat, lon, name }: FavoriteCityProps) {
   const { data: weather, isLoading } = useWeather(lat, lon);
   const { removeFavorite } = useFavoritesCity();
-  const router = useRouter();
   const toast = useToast();
 
   const onClickRemoveFavorite = () => {
@@ -42,9 +40,7 @@ export function FavoriteItem({ lat, lon, name }: FavoriteCityProps) {
       onClickRemoveFavorite={onClickRemoveFavorite}
       id={`${weather.coord.lat}_${weather.coord.lon}`}
       temperature={weather.main.temp}
-      onClick={() => {
-        router.push(`/city/${weather.coord.lat},${weather.coord.lon}`);
-      }}
+      href={`/city/${weather.coord.lat},${weather.coord.lon}`}
     />
   );
 }
