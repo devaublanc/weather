@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 export function MyLocation() {
   const { isLoading, error, weather } = useMyLocation();
+
   const router = useRouter();
   return (
     <Flex flexDir={"column"} mt="10" mb="10" justifyContent={"center"}>

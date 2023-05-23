@@ -18,6 +18,10 @@ export function useMyLocation() {
       },
       error => {
         setError(error);
+      },
+      {
+        maximumAge: 60000,
+        enableHighAccuracy: false,
       }
     );
   }, []);
